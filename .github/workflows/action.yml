@@ -7,8 +7,6 @@ name: CI
 on:
   push:
     branches: [ master ]
-    paths:
-      - 'docs/**'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -22,18 +20,20 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
         with:
-          node-version: 10.x
+          submodules: true  # Fetch Hugo themes (true OR recursive)
+          fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
+
       - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2.2.1
+        uses: peaceiris/actions-hugo@v2
         with:
-          hugo-version: '0.69.2'
+          hugo-version: '0.75.1'
+          # extended: true
+
       - name: Build
-        run: make docs
+        run: hugo --minify
+
       - name: Deploy
-        uses: peaceiris/actions-gh-pages@v2.4.0
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          emptyCommits: false
-        env:
-          ACTIONS_DEPLOY_KEY: ${{ secrets.TOKEN }}
-          PUBLISH_BRANCH: gh-pages
-          PUBLISH_DIR: ./docs/public
+          github_token: ${{ secrets.TOKEN }}
+          publish_dir: ./public
