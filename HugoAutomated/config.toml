@@ -1,5 +1,5 @@
 ######################## default configuration ####################
-baseURL = "https://examplesite.com"
+baseURL = "https://superwalnut.github.io/hugo-automated/"
 title = "Somrat | Hugo Portfolio Template"
 theme = "somrat"
 # disable language
