@@ -21,11 +21,19 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - name: Deploy the site
-        uses: chabad360/hugo-gh-pages@master
+        with:
+          node-version: 10.x
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2.2.1
+        with:
+          hugo-version: '0.69.2'
+      - name: Build
+        run: make .
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v2.4.0
+        with:
+          emptyCommits: false
         env:
-          HUGO_VERSION: 0.69.2
-          TARGET_REPO: superwalnut/hugo-automated
-          TOKEN: ${{ secrets.TOKEN }}
-          HUGO_ARGS: '-t academic'
-          CNAME: superwalnut.github.io/hugo-automated
+          ACTIONS_DEPLOY_KEY: ${{ secrets.TOKEN }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: ./hugo-automated/public
