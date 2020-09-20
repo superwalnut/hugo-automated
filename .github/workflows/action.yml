@@ -22,7 +22,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       - name: Deploy the site
-        uses: superwalnut/hugo-automated@master
+        uses: chabad360/hugo-gh-pages@master
         env:
           HUGO_VERSION: 0.69.2
           TARGET_REPO: superwalnut/hugo-automated
